@@ -11,6 +11,12 @@
 	<form action="addAlien">
 		<input type="text" name="aId"/><br>
 		<input type="text" name="aName"/><br>
+		<input type="text" name="tech"/><br>
+		<button type="submit"> Submit </button>
+	</form>
+	
+	<form action="getAlien">
+		<input type="text" name="aId"/><br>
 		<button type="submit"> Submit </button>
 	</form>
 </body>
