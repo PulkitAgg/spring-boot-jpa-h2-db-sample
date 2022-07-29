@@ -9,8 +9,8 @@
 <body>
 
 	<form action="addAlien">
-		<input type="text" name="aName"/><br>
 		<input type="text" name="aId"/><br>
+		<input type="text" name="aName"/><br>
 		<button type="submit"> Submit </button>
 	</form>
 </body>
