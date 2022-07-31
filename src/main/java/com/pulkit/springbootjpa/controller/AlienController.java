@@ -45,15 +45,16 @@ public class AlienController {
 		return mv;
 	}
 	
-	@RequestMapping("/aliens")
+	@RequestMapping(path="/aliens", produces = {"application/xml"}) //only send xml not json (Accept:application/json -- not work)
 	@ResponseBody // informing our dispatch serverlet, just return whatever data we have
 	public List<Alien> getAliens() {
 		
 		return dao.findAll();
 	}
 
-	@RequestMapping("/alien/{aId}")
-	@ResponseBody // informing our dispatch serverlet, just return whatever data we have
+	// Jackson maven depenency used for converting java obj to json
+	@RequestMapping("/alien/{aId}") // it can send both json and xml response (for xml we have added jackson-dataformat-xml)
+	@ResponseBody // informing our dispatch servlet, just return whatever data we have
 	public Optional<Alien> getAlien(@PathVariable("aId") int aId) {
 		return dao.findById(aId);
 	}
