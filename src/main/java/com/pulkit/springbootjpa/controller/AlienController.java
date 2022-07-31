@@ -1,5 +1,8 @@
 package com.pulkit.springbootjpa.controller;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,14 +47,14 @@ public class AlienController {
 	
 	@RequestMapping("/aliens")
 	@ResponseBody // informing our dispatch serverlet, just return whatever data we have
-	public String getAliens() {
+	public List<Alien> getAliens() {
 		
-		return dao.findAll().toString();
+		return dao.findAll();
 	}
 
 	@RequestMapping("/alien/{aId}")
 	@ResponseBody // informing our dispatch serverlet, just return whatever data we have
-	public String getAlien(@PathVariable("aId") int aId) {
-		return dao.findById(aId).toString();
+	public Optional<Alien> getAlien(@PathVariable("aId") int aId) {
+		return dao.findById(aId);
 	}
 }
