@@ -30,6 +30,12 @@ public class AlienController {
 	public ModelAndView addAlien(@RequestParam int aId) {
 		ModelAndView mv  = new ModelAndView("showAlien.jsp");
 		Alien alien = dao.findById(aId).orElse(new Alien());
+		
+		System.out.println("Search by Eng Tech " + dao.findByTech("Eng"));
+		System.out.println("Search by aId greater than 2" + dao.findByaIdGreaterThan(2));
+		
+		System.out.println("Search by Eng Tech and sort by name" + dao.findByTechAndSortOnName("Eng"));
+		
 		mv.addObject(alien);
 		return mv;
 	}
