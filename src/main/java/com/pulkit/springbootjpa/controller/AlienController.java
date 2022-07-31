@@ -2,8 +2,10 @@ package com.pulkit.springbootjpa.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.pulkit.springbootjpa.dao.AlienDao;
@@ -39,5 +41,17 @@ public class AlienController {
 		mv.addObject(alien);
 		return mv;
 	}
+	
+	@RequestMapping("/aliens")
+	@ResponseBody // informing our dispatch serverlet, just return whatever data we have
+	public String getAliens() {
+		
+		return dao.findAll().toString();
+	}
 
+	@RequestMapping("/alien/{aId}")
+	@ResponseBody // informing our dispatch serverlet, just return whatever data we have
+	public String getAlien(@PathVariable("aId") int aId) {
+		return dao.findById(aId).toString();
+	}
 }
