@@ -6,15 +6,19 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.pulkit.springbootjpa.dao.AlienDao;
 import com.pulkit.springbootjpa.model.Alien;
 
 @Controller
+@RestController
 public class AlienController {
 	
 	@Autowired
@@ -31,7 +35,7 @@ public class AlienController {
 		return "Home.jsp";
 	}
 	
-	@RequestMapping("/getAlien")
+	@RequestMapping("/getAlien") // by default it is get mapping - @GetMapping will give same req and res
 	public ModelAndView addAlien(@RequestParam int aId) {
 		ModelAndView mv  = new ModelAndView("showAlien.jsp");
 		Alien alien = dao.findById(aId).orElse(new Alien());
@@ -46,7 +50,8 @@ public class AlienController {
 	}
 	
 	@RequestMapping(path="/aliens", produces = {"application/xml"}) //only send xml not json (Accept:application/json -- not work)
-	@ResponseBody // informing our dispatch serverlet, just return whatever data we have
+//	@ResponseBody // informing our dispatch serverlet, just return whatever data we have
+	// we can remove @ResponseBody from all function and used @RestController instead of @RestController
 	public List<Alien> getAliens() {
 		
 		return dao.findAll();
@@ -54,8 +59,14 @@ public class AlienController {
 
 	// Jackson maven depenency used for converting java obj to json
 	@RequestMapping("/alien/{aId}") // it can send both json and xml response (for xml we have added jackson-dataformat-xml)
-	@ResponseBody // informing our dispatch servlet, just return whatever data we have
+//	@ResponseBody // informing our dispatch servlet, just return whatever data we have
 	public Optional<Alien> getAlien(@PathVariable("aId") int aId) {
 		return dao.findById(aId);
+	}
+	
+	@PostMapping("/alien")
+	public Alien addAlienInDb(@RequestBody Alien alien) { // @RequestBody requires for taking json otherwise it works for form-data
+		dao.save(alien);
+		return alien;
 	}
 }
