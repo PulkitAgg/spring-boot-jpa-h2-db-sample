@@ -5,8 +5,10 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -66,6 +68,19 @@ public class AlienController {
 	
 	@PostMapping("/alien")
 	public Alien addAlienInDb(@RequestBody Alien alien) { // @RequestBody requires for taking json otherwise it works for form-data
+		dao.save(alien);
+		return alien;
+	}
+	
+	@DeleteMapping("/alien/{id}")
+	public String deleteAlien(@PathVariable int id) {
+		Alien a = dao.getById(id);
+		dao.delete(a);
+		return "deleted";
+	}
+	
+	@PutMapping("/alien")
+	public Alien saveAlien(@RequestBody Alien alien) {
 		dao.save(alien);
 		return alien;
 	}
